@@ -5,6 +5,8 @@ import { requireUser } from "./utils/hooks"
 import { invoiceSchema, onBoradingSchema } from "./utils/zodSchemas";
 import prisma from "./utils/db";
 import { redirect } from "next/navigation";
+import { emailClient } from "./utils/mailtrap";
+import { formatCurrency } from "./utils/formatCurrency";
 
 export async function onboardUser(prevStat: any, formData: FormData) {
     const session  = await requireUser();
@@ -61,6 +63,29 @@ export async function createInvoice(prevState: any, formData: FormData) {
             userId: session.user?.id
         }
     });
+
+    const sender = {
+        email: "hello@demomailtrap.com",
+        name: "InvoiceG",
+    };
+
+    emailClient.send({
+        from: sender,
+        to: [{email: 'ifte.phoenix@gmail.com'}],
+        template_uuid: "f34e5bd2-6a79-48cf-8835-369ed8ae74cc",
+        template_variables: {
+            "clientName": submission.value.clientName,
+            "invoiceNumber": submission.value.invoiceName,
+            "dueDate": new Intl.DateTimeFormat("en-US", {
+                dateStyle: "long"
+            }).format(new Date(submission.value.dueDate)),
+            "totalAmount": formatCurrency({
+                amount: submission.value.total,
+                currency: submission.value.currency as any
+            }),
+            "invoiceLink": "Test_InvoiceLink"
+        }
+    })
 
     return redirect("/dashboard/invoices")
 }
