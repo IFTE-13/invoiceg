@@ -1,26 +1,30 @@
-import Link from "next/link";
 import { ReactNode } from "react";
+import { requireUser } from "../utils/hooks";
+import Link from "next/link";
+import Logo from "@/public/logo.png";
 import Image from "next/image";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu";
+import { DashboardLinks } from "../components/DashboardLinks";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu, User2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { signOut } from "../utils/auth";
 import prisma from "../utils/db";
 import { redirect } from "next/navigation";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export default async function DashboardLayout({
     children,
   }: {
     children: ReactNode;
   }) {
+    const session = await requireUser();
     
     return (
       <>
@@ -31,7 +35,7 @@ export default async function DashboardLayout({
                 <Link href="/" className="flex items-center gap-2">
                   <Image src={Logo} alt="Logo" className="size-7" />
                   <p className="text-2xl font-bold">
-                    Invoice<span className="text-blue-600">Marshal</span>
+                    Invoice<span className="text-blue-600">Organizer</span>
                   </p>
                 </Link>
               </div>
@@ -99,7 +103,7 @@ export default async function DashboardLayout({
             </main>
           </div>
         </div>
-        <Toaster richColors closeButton theme="light" />
+        
       </>
     );
   }

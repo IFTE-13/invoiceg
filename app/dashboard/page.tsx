@@ -12,7 +12,6 @@ export default async function DashboardRoute() {
         await signOut()
       }}
     >
-      <button type="submit">Sign Out</button>
     </form>
   )
 }
