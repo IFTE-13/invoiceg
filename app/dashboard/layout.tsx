@@ -18,6 +18,7 @@ import {
 import { signOut } from "../utils/auth";
 import prisma from "../utils/db";
 import { redirect } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -123,6 +124,7 @@ export default async function DashboardLayout({
           </div>
         </div>
         
+        <Toaster richColors closeButton/>
       </>
     );
   }

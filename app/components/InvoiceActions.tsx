@@ -16,13 +16,14 @@ import {
   Trash,
 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface iAppProps {
   id: string;
   status: string;
 }
 export function InvoiceActions({ id, status }: iAppProps) {
-  /**const handleSendReminder = () => {
+  const handleSendReminder = () => {
     toast.promise(
       fetch(`/api/email/${id}`, {
         method: "POST",
@@ -31,12 +32,12 @@ export function InvoiceActions({ id, status }: iAppProps) {
         },
       }),
       {
-        loading: "Sending reminder email...",
+        loading: "Sending reminder email",
         success: "Reminder email sent successfully",
         error: "Failed to send reminder email",
       }
     );
-  };*/
+  };
 
   return (
     <DropdownMenu>
@@ -56,7 +57,7 @@ export function InvoiceActions({ id, status }: iAppProps) {
             <DownloadCloudIcon className="size-4 mr-2" /> Download Invoice
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={()=>{}}>
+        <DropdownMenuItem onClick={handleSendReminder}>
           <Mail className="size-4 mr-2" /> Reminder Email
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
